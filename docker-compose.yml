@@ -1,5 +1,3 @@
-version: "3.8"
-
 services:
   # Serviço que recebe o tráfego do túnel e distribui pelos containers/apps
   router:
