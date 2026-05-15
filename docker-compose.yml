@@ -11,8 +11,8 @@ services:
       - "81:81"
       - "443:443"
     volumes:
-      - ~/infra/npm/data:/data
-      - ~/infra/npm/letsencrypt:/etc/letsencrypt
+      - ~/infra/router/data:/data
+      - ~/infra/router/letsencrypt:/etc/letsencrypt
     networks:
       - edge
       - routing
@@ -30,7 +30,7 @@ services:
     networks:
       - edge
     volumes:
-      - ~/infra/cloudflared:/home/nonroot/.cloudflared
+      - ~/infra/tunnel:/home/nonroot/.cloudflared
 
 networks:
   # Rede para comunicação entre o Tunnel e o Router
