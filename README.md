@@ -38,10 +38,10 @@ Para garantir o isolamento e a comunicação entre projetos, o setup cria duas r
 
 Recomenda-se o clone na home do usuário `deployer`:
 
-`bash
+```bash
 git clone https://github.com/CRafaelSdO/setup-infra.git
 cd setup-infra
-`
+```
 
 ### 2. Configuração no Cloudflare Zero Trust
 
@@ -53,12 +53,16 @@ No painel do túnel no Cloudflare Dashboard, adicione os seguintes **Public Host
 | `admin.seu-dominio.exemplo` | `http://router:81`              | Painel de Gestão do NPM           |
 | `*.seu-dominio.exemplo`     | `http://router:80`              | Wildcard para todas as aplicações |
 
+Recomendo primeiro configurar o ssh para ativar o túnel e depois configurar os outros subdomínios.
+
 ### 3. Executar o Setup
 
 O script `setup.sh` automatiza a criação das redes e o deploy dos containers.
 Execute passando o seu **Token do Túnel**:
 
-`./setup.sh SEU_CF_TUNNEL_TOKEN`
+```bash
+./setup.sh SEU_CF_TUNNEL_TOKEN
+```
 
 ### 4. Acessar o Painel
 
