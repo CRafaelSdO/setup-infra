@@ -1,0 +1,41 @@
+version: "3.8"
+
+services:
+  # Serviço que recebe o tráfego do túnel e distribui pelos containers/apps
+  router:
+    image: "jc21/nginx-proxy-manager:latest"
+    container_name: router
+    restart: always
+    ports:
+      - "80:80"
+      - "81:81"
+      - "443:443"
+    volumes:
+      - ~/infra/npm/data:/data
+      - ~/infra/npm/letsencrypt:/etc/letsencrypt
+    networks:
+      - edge
+      - routing
+
+  # Serviço responsável pela "ponte" entre a Cloudflare e a VPS
+  tunnel:
+    image: cloudflare/cloudflared:latest
+    container_name: tunnel
+    restart: always
+    environment:
+      - TUNNEL_TOKEN=${CF_TUNNEL_TOKEN}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    command: tunnel run
+    networks:
+      - edge
+    volumes:
+      - ~/infra/cloudflared:/home/nonroot/.cloudflared
+
+networks:
+  # Rede para comunicação entre o Tunnel e o Router
+  edge:
+    external: true
+  # Rede para comunicação entre o Router e os projetos
+  routing:
+    external: true
