@@ -1,3 +1,4 @@
+---
 services:
     router:
         image: "jc21/nginx-proxy-manager:latest"
@@ -13,19 +14,19 @@ services:
         networks:
             - edge
             - routing
-        tunnel:
-            image: cloudflare/cloudflared:latest
-            container_name: tunnel
-            restart: always
-            environment:
-                - TUNNEL_TOKEN=${CF_TUNNEL_TOKEN}
-            extra_hosts:
-                - "host.docker.internal:host-gateway"
-            command: tunnel run
-            networks:
-                - edge
-            volumes:
-                - ~/infra/tunnel:/home/nonroot/.cloudflared
+    tunnel:
+        image: cloudflare/cloudflared:latest
+        container_name: tunnel
+        restart: always
+        environment:
+            - TUNNEL_TOKEN=${CF_TUNNEL_TOKEN}
+        extra_hosts:
+            - "host.docker.internal:host-gateway"
+        command: tunnel run
+        networks:
+            - edge
+        volumes:
+            - ~/infra/tunnel:/home/nonroot/.cloudflared
 networks:
     edge:
         external: true
